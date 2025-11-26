@@ -147,7 +147,7 @@ export function GameUI() {
     setConfirmDialog({
       isOpen: true,
       title: `Mint ${badgeName}?`,
-      message: `• NFT Badge: ${badgeName}\n• QuestCoin Tokens: ${tokenAmount}\n• Wallet: ${address.slice(0, 6)}...${address.slice(-4)}\n\nThis will mint actual HTS tokens to your wallet address.`,
+      message: `• NFT Badge: ${badgeName}\n• QUEST Tokens: ${tokenAmount}\n• Wallet: ${address.slice(0, 6)}...${address.slice(-4)}\n\nThis will mint QUEST tokens and NFT badge to your wallet address.`,
       onConfirm: () => {
         setConfirmDialog({ ...confirmDialog, isOpen: false });
         proceedWithMinting(mintParams.stage, mintParams.badgeName, mintParams.tokenAmount);
@@ -163,7 +163,7 @@ export function GameUI() {
     if (!address) return;
     
     try {
-      console.log('🔄 User confirmed minting, proceeding with HTS token minting...');
+      console.log('🔄 User confirmed minting, proceeding with QUEST token and NFT minting...');
       setIsMinting(true);
 
       // Get contract addresses
@@ -171,7 +171,7 @@ export function GameUI() {
       console.log('📜 Using contract addresses:', contracts);
 
       try {
-        console.log('🔄 Minting HTS tokens through CeloService...');
+        console.log('🔄 Minting QUEST tokens through Celo contract...');
 
         // Check what has already been claimed from player state
         const tokensAlreadyClaimed = player?.tokensClaimedStages?.includes(stage) || false;
