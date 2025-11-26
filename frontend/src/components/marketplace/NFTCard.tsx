@@ -23,6 +23,8 @@ import { client } from '@/client';
 import { CONTRACTS } from '@/config/contracts';
 import { RUNNER_BADGE_ABI, NFT_MARKETPLACE_ABI } from '@/config/abis';
 import { useGameStore } from '@/store/gameStore';
+import { isMiniPayAvailable, checkCUSDBalance } from '@/utils/minipay';
+import { stableTokenABI } from '@celo/abis';
 
 const celoSepolia = defineChain({
   id: 11142220,
@@ -56,8 +58,32 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
   const [isBuyPending, setIsBuyPending] = useState(false);
   const [isCancelPending, setIsCancelPending] = useState(false);
   const [listing, setListing] = useState<{ seller: string; price: bigint; isActive: boolean } | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'CELO' | 'cUSD'>('CELO');
+  const [isMiniPay, setIsMiniPay] = useState(false);
+  const [cUSDBalance, setCUSDBalance] = useState<string>('0');
+  const [isApprovingCUSD, setIsApprovingCUSD] = useState(false);
+  const [cUSDAllowance, setCUSDAllowance] = useState<bigint>(BigInt(0));
 
   const isOwner = isOwnedByUser;
+
+  // Check for MiniPay and load cUSD balance
+  useEffect(() => {
+    setIsMiniPay(isMiniPayAvailable());
+  }, []);
+
+  useEffect(() => {
+    if (isMiniPay && connectedAddress) {
+      checkCUSDBalance(connectedAddress, true).then(setCUSDBalance);
+      checkCUSDAllowance();
+    }
+  }, [isMiniPay, connectedAddress, listing]);
+
+  // Set default payment method for MiniPay users
+  useEffect(() => {
+    if (isMiniPay) {
+      setPaymentMethod('cUSD');
+    }
+  }, [isMiniPay]);
 
   // Get badge contract instance
   const getBadgeContract = () => {
@@ -80,6 +106,37 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
       address: CONTRACTS.MARKETPLACE,
       abi: NFT_MARKETPLACE_ABI,
     });
+  };
+
+  // Get cUSD token contract instance
+  const getCUSDContract = () => {
+    return getContract({
+      client,
+      chain: celoSepolia,
+      address: CONTRACTS.CUSD_TOKEN,
+      abi: stableTokenABI,
+    });
+  };
+
+  // Check cUSD allowance
+  const checkCUSDAllowance = async () => {
+    if (!connectedAddress || !listing) return;
+    
+    try {
+      const cusdContract = getCUSDContract();
+      const marketplace = getMarketplaceContract();
+      if (!marketplace) return;
+
+      const allowance = await readContract({
+        contract: cusdContract,
+        method: "allowance",
+        params: [connectedAddress, CONTRACTS.MARKETPLACE],
+      });
+
+      setCUSDAllowance(BigInt(allowance.toString()));
+    } catch (error) {
+      console.error('Error checking cUSD allowance:', error);
+    }
   };
 
   // Fetch listing info
@@ -208,8 +265,8 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
     }
   };
 
-  // Handle buy
-  const handleBuy = async () => {
+  // Handle buy with CELO
+  const handleBuyWithCELO = async () => {
     if (!listing || !account) return;
 
     const marketplace = getMarketplaceContract();
@@ -235,7 +292,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
         transactionHash,
       });
 
-      showNotification('success', 'Purchased!', 'NFT purchased successfully!');
+      showNotification('success', 'Purchased!', 'NFT purchased successfully with CELO!');
       await fetchListing();
       onListingChange?.();
     } catch (error: any) {
@@ -243,6 +300,84 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
       showNotification('error', 'Purchase Failed', error.message || 'Could not purchase NFT');
     } finally {
       setIsBuyPending(false);
+    }
+  };
+
+  // Handle buy with cUSD
+  const handleBuyWithCUSD = async () => {
+    if (!listing || !account) return;
+
+    const marketplace = getMarketplaceContract();
+    const cusdContract = getCUSDContract();
+    if (!marketplace) return;
+
+    try {
+      setIsBuyPending(true);
+
+      // Check if we need to approve cUSD
+      if (cUSDAllowance < listing.price) {
+        setIsApprovingCUSD(true);
+        showNotification('info', 'Approving cUSD', 'Please approve cUSD spending...');
+
+        const approveTx = prepareContractCall({
+          contract: cusdContract,
+          method: "approve",
+          params: [CONTRACTS.MARKETPLACE, listing.price],
+        });
+
+        const { transactionHash: approveHash } = await sendTransaction({
+          account,
+          transaction: approveTx,
+        });
+
+        await waitForReceipt({
+          client,
+          chain: celoSepolia,
+          transactionHash: approveHash,
+        });
+
+        setIsApprovingCUSD(false);
+        await checkCUSDAllowance();
+        showNotification('success', 'Approved', 'cUSD approved!');
+      }
+
+      // Buy with cUSD
+      const buyTx = prepareContractCall({
+        contract: marketplace,
+        method: "buyItemWithCUSD",
+        params: [BigInt(tokenId), listing.price],
+      });
+
+      const { transactionHash } = await sendTransaction({
+        account,
+        transaction: buyTx,
+      });
+
+      await waitForReceipt({
+        client,
+        chain: celoSepolia,
+        transactionHash,
+      });
+
+      showNotification('success', 'Purchased!', 'NFT purchased successfully with cUSD!');
+      await fetchListing();
+      await checkCUSDBalance(connectedAddress!, true).then(setCUSDBalance);
+      onListingChange?.();
+    } catch (error: any) {
+      console.error('Purchase failed:', error);
+      showNotification('error', 'Purchase Failed', error.message || 'Could not purchase NFT');
+    } finally {
+      setIsBuyPending(false);
+      setIsApprovingCUSD(false);
+    }
+  };
+
+  // Main buy handler
+  const handleBuy = async () => {
+    if (paymentMethod === 'CELO') {
+      await handleBuyWithCELO();
+    } else {
+      await handleBuyWithCUSD();
     }
   };
 
@@ -340,13 +475,49 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
         )}
 
         {connectedAddress && !isOwner && listing?.isActive && (
-          <button
-            onClick={handleBuy}
-            disabled={isBuyPending}
-            className="nes-btn is-primary pixel-font w-full text-xs"
-          >
-            {isBuyPending ? 'BUYING...' : 'BUY NOW'}
-          </button>
+          <>
+            {/* Payment Method Selector - Only for MiniPay users */}
+            {isMiniPay && (
+              <div className="mb-2 p-2 bg-green-50 border border-green-300 rounded">
+                <p className="pixel-font text-[10px] text-green-800 mb-1 font-bold">💵 Payment Method:</p>
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => setPaymentMethod('CELO')}
+                    className={`nes-btn pixel-font text-[10px] px-2 py-1 flex-1 ${
+                      paymentMethod === 'CELO' ? 'is-primary' : 'is-disabled'
+                    }`}
+                  >
+                    CELO
+                  </button>
+                  <button
+                    onClick={() => setPaymentMethod('cUSD')}
+                    className={`nes-btn pixel-font text-[10px] px-2 py-1 flex-1 ${
+                      paymentMethod === 'cUSD' ? 'is-success' : 'is-disabled'
+                    }`}
+                  >
+                    cUSD
+                  </button>
+                </div>
+                {paymentMethod === 'cUSD' && (
+                  <p className="pixel-font text-[9px] text-green-700 mt-1">
+                    Balance: {parseFloat(cUSDBalance).toFixed(2)} cUSD
+                  </p>
+                )}
+              </div>
+            )}
+            <button
+              onClick={handleBuy}
+              disabled={isBuyPending || isApprovingCUSD || (paymentMethod === 'cUSD' && parseFloat(cUSDBalance) < parseFloat(formatEther(listing.price)))}
+              className="nes-btn is-primary pixel-font w-full text-xs"
+            >
+              {isApprovingCUSD ? 'APPROVING...' : isBuyPending ? 'BUYING...' : `BUY NOW (${paymentMethod})`}
+            </button>
+            {paymentMethod === 'cUSD' && parseFloat(cUSDBalance) < parseFloat(formatEther(listing.price)) && (
+              <p className="pixel-font text-[10px] text-red-600 mt-1 text-center">
+                Insufficient cUSD balance
+              </p>
+            )}
+          </>
         )}
 
         {connectedAddress && !isOwner && !listing?.isActive && (
