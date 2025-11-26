@@ -10,6 +10,7 @@ import { useGameSounds } from '@/hooks/useGameSounds';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { getBadgeImage, getBadgeNameByStage } from '@/config/badgeMetadata';
 import { useWallet } from '@/context/WalletContext';
+import { isMiniPayAvailable, checkCUSDBalance } from '@/utils/minipay';
 
 export function GameUI() {
   const router = useRouter();
@@ -34,6 +35,8 @@ export function GameUI() {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
   const [isMinting, setIsMinting] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [isMiniPay, setIsMiniPay] = useState(false);
+  const [cUSDBalance, setCUSDBalance] = useState<string>("0");
   
   // Confirmation dialog state
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -53,6 +56,17 @@ export function GameUI() {
   const account = useActiveAccount();
   const address = account?.address;
   const { disconnect } = useWallet();
+
+  // Check for MiniPay and load cUSD balance
+  useEffect(() => {
+    setIsMiniPay(isMiniPayAvailable());
+  }, []);
+
+  useEffect(() => {
+    if (isMiniPay && address) {
+      checkCUSDBalance(address, true).then(setCUSDBalance);
+    }
+  }, [isMiniPay, address]);
 
 
   const handleRestart = () => {

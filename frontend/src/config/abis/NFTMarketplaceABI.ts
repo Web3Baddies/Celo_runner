@@ -2,7 +2,8 @@
 export const NFT_MARKETPLACE_ABI = [
   {
     inputs: [
-      { internalType: "address", name: "_nftContract", type: "address" }
+      { internalType: "address", name: "_nftContract", type: "address" },
+      { internalType: "address", name: "_cusdToken", type: "address" }
     ],
     stateMutability: "nonpayable",
     type: "constructor"
@@ -113,6 +114,34 @@ export const NFT_MARKETPLACE_ABI = [
     outputs: [{ internalType: "contract IERC721", name: "", type: "address" }],
     stateMutability: "view",
     type: "function"
+  },
+  {
+    inputs: [],
+    name: "cUSDToken",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "uint256", name: "cusdAmount", type: "uint256" }
+    ],
+    name: "buyItemWithCUSD",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "uint256", name: "tokenId", type: "uint256" },
+      { indexed: true, internalType: "address", name: "buyer", type: "address" },
+      { indexed: true, internalType: "address", name: "seller", type: "address" },
+      { indexed: false, internalType: "uint256", name: "price", type: "uint256" }
+    ],
+    name: "ItemSoldWithCUSD",
+    type: "event"
   }
 ] as const;
 

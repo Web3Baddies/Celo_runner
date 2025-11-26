@@ -5,6 +5,7 @@ import { client } from '@/client';
 import { celoSepolia, useWallet } from '@/context/WalletContext';
 import { useEffect, useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
+import { isMiniPayAvailable, openMiniPayAddCash, checkCUSDBalance } from '@/utils/minipay';
 
 export function NewWalletConnection() {
   const { account, isConnected } = useWallet();
@@ -12,6 +13,8 @@ export function NewWalletConnection() {
   const [username, setUsername] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'pending' | 'waiting' | 'success'>('idle');
+  const [isMiniPay, setIsMiniPay] = useState(false);
+  const [cUSDBalance, setCUSDBalance] = useState<string>("0");
 
   const {
     setConnected,
@@ -22,6 +25,17 @@ export function NewWalletConnection() {
     contractCallbacks,
     player
   } = useGameStore();
+
+  // Check for MiniPay on mount and load cUSD balance
+  useEffect(() => {
+    setIsMiniPay(isMiniPayAvailable());
+  }, []);
+
+  useEffect(() => {
+    if (isMiniPay && account?.address) {
+      checkCUSDBalance(account.address, true).then(setCUSDBalance);
+    }
+  }, [isMiniPay, account?.address]);
 
   // Handle wallet connection state changes
   useEffect(() => {
@@ -181,14 +195,35 @@ export function NewWalletConnection() {
           </button>
         </div>
       ) : (
-        <ConnectButton
-          client={client}
-          chain={celoSepolia}
-          theme="light"
-          connectButton={{
-            label: "💼 CONNECT WALLET",
-          }}
-        />
+        <div className="flex flex-col items-center gap-2 relative z-20">
+          {isMiniPay && (
+            <div className="nes-container is-success pixel-font text-xs px-3 py-2 mb-2">
+              <div className="mb-1">🎉 MiniPay Detected!</div>
+              <div className="text-[10px]">Enjoy seamless, low-cost transactions!</div>
+              {parseFloat(cUSDBalance) > 0 && (
+                <div className="mt-1 text-[10px] font-bold">
+                  💵 {parseFloat(cUSDBalance).toFixed(2)} cUSD
+                </div>
+              )}
+            </div>
+          )}
+          <ConnectButton
+            client={client}
+            chain={celoSepolia}
+            theme="light"
+            connectButton={{
+              label: "💼 CONNECT WALLET",
+            }}
+          />
+          {isMiniPay && (
+            <button
+              onClick={openMiniPayAddCash}
+              className="nes-btn is-success pixel-font text-xs px-3 py-1"
+            >
+              💰 Add Cash to MiniPay
+            </button>
+          )}
+        </div>
       )}
 
       {/* Registration Modal */}
