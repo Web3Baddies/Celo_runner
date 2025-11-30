@@ -69,7 +69,7 @@ Celo offers low fees. Your rewards stay in your pocket. Fast transactions mean q
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Lynndabel/Celo_runner.git
+   git clone https://github.com/Web3Baddies/Celo_runner.git
    cd Celo_runner
    ```
 
