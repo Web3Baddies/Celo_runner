@@ -10,7 +10,7 @@ import { RUNNER_BADGE_ABI } from '@/config/abis';
 import { getBadgeImage, getBadgeNameByStage } from '@/config/badgeMetadata';
 import { NFTCard } from './NFTCard';
 
-const celoSepolia = defineChain({
+const celoMainnet = defineChain({
   id: 42220,
   name: "Celo Mainnet",
   rpc: "https://forno.celo.org/",
@@ -45,7 +45,7 @@ export function MarketplaceGrid() {
   const getBadgeContract = () => {
     return getContract({
       client,
-      chain: celoSepolia,
+      chain: celoMainnet,
       address: CONTRACTS.RUNNER_BADGE,
       abi: RUNNER_BADGE_ABI,
     });

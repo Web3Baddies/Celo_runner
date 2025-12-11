@@ -6,9 +6,9 @@ import { client } from '@/client';
 import { CONTRACTS } from '@/config/contracts';
 import { CELO_RUNNER_ABI } from '@/config/abis';
 
-// Define Celo Sepolia chain
-const celoSepolia = defineChain({
-  id: 11142220,
+// Define Celo Mainnet chain
+const celoMainnet = defineChain({
+  id: 42220,
   name: "Celo Mainnet",
   rpc: "https://forno.celo.org/",
   nativeCurrency: {
@@ -22,7 +22,7 @@ const celoSepolia = defineChain({
 const getCeloRunnerContract = () => {
   return getContract({
     client,
-    chain: celoSepolia,
+    chain: celoMainnet,
     address: CONTRACTS.CELO_RUNNER,
     abi: CELO_RUNNER_ABI,
   });
@@ -85,7 +85,7 @@ export const useCeloRunner = () => {
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -162,7 +162,7 @@ export const useCeloRunner = () => {
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -205,7 +205,7 @@ export const useCeloRunner = () => {
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -250,7 +250,7 @@ export const useCeloRunner = () => {
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -295,7 +295,7 @@ export const useCeloRunner = () => {
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 

@@ -28,7 +28,7 @@ import { stableTokenABI } from '@celo/abis';
 
 const celoMainnet = defineChain({
   id: 42220,
-  name: "Celo Sepolia",
+  name: "Celo Mainnet",
   rpc: "https://forno.celo.org/",
   nativeCurrency: {
     name: "CELO",
@@ -89,7 +89,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
   const getBadgeContract = () => {
     return getContract({
       client,
-      chain: celoSepolia,
+      chain: celoMainnet,
       address: CONTRACTS.RUNNER_BADGE,
       abi: RUNNER_BADGE_ABI,
     });
@@ -102,7 +102,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
     }
     return getContract({
       client,
-      chain: celoSepolia,
+      chain: celoMainnet,
       address: CONTRACTS.MARKETPLACE,
       abi: NFT_MARKETPLACE_ABI,
     });
@@ -112,7 +112,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
   const getCUSDContract = () => {
     return getContract({
       client,
-      chain: celoSepolia,
+      chain: celoMainnet,
       address: CONTRACTS.CUSD_TOKEN,
       abi: stableTokenABI,
     });
@@ -209,7 +209,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -248,7 +248,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -288,7 +288,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -332,7 +332,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
 
         await waitForReceipt({
           client,
-          chain: celoSepolia,
+          chain: celoMainnet,
           transactionHash: approveHash,
         });
 
@@ -355,7 +355,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 
@@ -401,7 +401,7 @@ export function NFTCard({ tokenId, badgeName, badgeImage, ownerAddress, isOwnedB
 
       await waitForReceipt({
         client,
-        chain: celoSepolia,
+        chain: celoMainnet,
         transactionHash,
       });
 

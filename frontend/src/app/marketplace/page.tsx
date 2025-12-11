@@ -29,7 +29,7 @@ const Marketplace: NextPage = () => {
           </h1>
           <div className="mt-3 sm:mt-4 inline-flex items-center gap-2 bg-green-50 border-2 border-green-300 rounded px-3 sm:px-4 py-2">
             <span className="pixel-font text-xs sm:text-sm text-green-800 font-bold">
-              ✅ CELO SEPOLIA
+              ✅ CELO Mainnet
             </span>
           </div>
         </div>
