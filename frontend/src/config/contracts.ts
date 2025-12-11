@@ -1,10 +1,10 @@
 // Contract addresses on Celo Sepolia
 export const CONTRACTS = {
-  QUEST_TOKEN: '0x48e2e16a5cfe127fbfc76f3fd85163bbae64a861' as `0x${string}`,
-  RUNNER_BADGE: '0x7b72c0e84012f868fe9a4164a8122593d0f38b84' as `0x${string}`,
-  CELO_RUNNER: '0x4588b0ff4016952e4391dea6dcc7f9a1484ac7b6' as `0x${string}`,
-  MARKETPLACE: '0x370f6701cFDECC0A9D744a12b156317AA3CE32D1' as `0x${string}`, // Updated with cUSD support
-  CUSD_TOKEN: '0xdE9e4C3ce781b4bA68120d6261cbad65ce0aB00b' as `0x${string}`, // Celo Sepolia cUSD
+  QUEST_TOKEN: '0xC3adf32A0C0a70183eab5D1C33B088fFeEecf396' as `0x${string}`,
+  RUNNER_BADGE: '0x6D939Da699D3AbA5A47662242Ec5e1a091Db617D' as `0x${string}`,
+  CELO_RUNNER: '0x03c2c7011eE8519D3B0AF49f20D4b6dEF80799A7' as `0x${string}`,
+  MARKETPLACE: '0xa3fC9782937F8FFDD9BB59D573b33E9842065013' as `0x${string}`, // Updated with cUSD support
+  CUSD_TOKEN: '0x765DE816845861e75A25fCA122bb6898B8B1282a' as `0x${string}`, // Celo mainnet cUSD
 } as const;
 
 // Helper function to get contract addresses
@@ -13,10 +13,10 @@ export function getContractAddresses() {
 }
 
 // Network configuration
-export const CELO_SEPOLIA = {
-  id: 11142220,
-  name: 'Celo Sepolia Testnet',
-  network: 'celo-sepolia',
+export const Celo_Mainnet = {
+  id: 42220,
+  name: 'Celo Mainnet',
+  network: 'celo-mainnet',
   nativeCurrency: {
     decimals: 18,
     name: 'CELO',
@@ -24,19 +24,19 @@ export const CELO_SEPOLIA = {
   },
   rpcUrls: {
     default: {
-      http: ['https://forno.celo-sepolia.celo-testnet.org/'],
+      http: ['https://forno.celo.org/'],
     },
     public: {
-      http: ['https://forno.celo-sepolia.celo-testnet.org/'],
+      http: ['https://forno.celo.org/'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Celo Explorer',
-      url: 'https://explorer.celo-sepolia.celo-testnet.org',
+      url: 'https://explorer.celo.org',
     },
   },
-  testnet: true,
+  testnet: false,
 } as const;
 
 // Game constants

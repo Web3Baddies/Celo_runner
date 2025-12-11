@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ConnectButton } from 'thirdweb/react';
 import { client } from '@/client';
-import { celoSepolia } from '@/context/WalletContext';
+import { celoMainnet } from '@/context/WalletContext';
 
 export default function RegisterPage() {
   const { account, isConnected } = useWallet();
@@ -48,7 +48,7 @@ export default function RegisterPage() {
           <div className="text-center">
             <ConnectButton
               client={client}
-              chain={celoSepolia}
+              chain={celoMainnet}
               theme="light"
             />
           </div>

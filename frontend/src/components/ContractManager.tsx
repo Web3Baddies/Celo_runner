@@ -10,10 +10,10 @@ import { useCeloRunner, usePlayerData, useGeneralLeaderboard, useStageCompletion
 import { getContractAddresses } from '@/config/contracts';
 
 // Define Celo Sepolia chain
-const celoSepolia = defineChain({
-  id: 11142220,
-  name: "Celo Sepolia",
-  rpc: "https://forno.celo-sepolia.celo-testnet.org/",
+const celoMainnet = defineChain({
+  id: 42220,
+  name: "Celo Mainnet",
+  rpc: "https://forno.celo.org/",
   nativeCurrency: {
     name: "CELO",
     symbol: "CELO",
@@ -827,7 +827,7 @@ export function ContractManager() {
           console.log('⏳ Waiting for transaction to be confirmed on blockchain...');
           const receipt = await waitForReceipt({
             client,
-            chain: celoSepolia,
+            chain: celoMainnet,
             transactionHash: txHash as `0x${string}`,
           });
 
@@ -857,7 +857,7 @@ export function ContractManager() {
           console.log('⏳ Waiting for transaction to be confirmed on blockchain...');
           const receipt = await waitForReceipt({
             client,
-            chain: celoSepolia,
+            chain: celoMainnet,
             transactionHash: txHash as `0x${string}`,
           });
 
@@ -883,7 +883,7 @@ export function ContractManager() {
           // For Celo, transaction confirmation is handled by thirdweb's waitForReceipt
           await waitForReceipt({
             client,
-            chain: celoSepolia,
+            chain: celoMainnet,
             transactionHash: transactionId as `0x${string}`,
           });
           return true; 

@@ -56,6 +56,97 @@ Your badge NFTs belong to you. Trade them. Sell them. Keep them. Your QUEST toke
 
 Celo offers low fees. Your rewards stay in your pocket. Fast transactions mean quick payouts. Mobile design works on your phone. Built for real use.
 
+## 🚀 Setup and Installation
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- Git
+- A Celo-compatible wallet (MetaMask, WalletConnect, or MiniPay)
+- For local development: Foundry (for smart contracts)
+
+### Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Web3Baddies/Celo_runner.git
+   cd Celo_runner
+   ```
+
+2. **Set up the development environment**
+   ```bash
+   # Install smart contract dependencies
+   cd smartcontract
+   forge install
+   
+   # Install frontend dependencies
+   cd ../frontend
+   npm install
+   ```
+
+3. **Configure environment variables**
+   - Copy the example environment files:
+     ```bash
+     cp frontend/.env.local.example frontend/.env.local
+     cp smartcontract/.env.example smartcontract/.env
+     ```
+   - Update the `.env` files with your configuration (see Configuration section below)
+
+4. **Start the development servers**
+   ```bash
+   # In one terminal (smart contracts)
+   cd smartcontract
+   forge build
+   
+   # In another terminal (frontend)
+   cd frontend
+   npm run dev
+   ```
+   The frontend will be available at `http://localhost:3000`
+
+### Configuration
+
+#### Frontend (`.env.local`)
+```env
+NEXT_PUBLIC_QUEST_TOKEN_ADDRESS=0xC3adf32A0C0a70183eab5D1C33B088fFeEecf396
+NEXT_PUBLIC_RUNNER_BADGE_ADDRESS=0x6D939Da699D3AbA5A47662242Ec5e1a091Db617D
+NEXT_PUBLIC_CELO_RUNNER_ADDRESS=0x03c2c7011eE8519D3B0AF49f20D4b6dEF80799A7
+NEXT_PUBLIC_CELO_NFT_MARKETPLACE=0xa3fC9782937F8FFDD9BB59D573b33E9842065013
+NEXT_PUBLIC_CUSD_TOKEN_ADDRESS=
+NEXT_PUBLIC_CHAIN_ID=42220
+NEXT_PUBLIC_RPC_URL=https://forno.celo.org
+```
+
+#### Smart Contracts (`.env`)
+```env
+PRIVATE_KEY=0xyour_private_key_with_0x_prefix
+ETHERSCAN_API_KEY=your_blockscout_api_key
+```
+
+### Deploying to Production
+
+1. **Deploy Smart Contracts**
+   ```bash
+   # Deploy to Celo Mainnet
+   forge script script/DeployCeloRunner.s.sol:DeployCeloRunner --rpc-url https://forno.celo.org --broadcast
+   
+   # Deploy Marketplace
+   forge script script/DeployMarketplace.s.sol:DeployMarketplace --rpc-url https://forno.celo.org --broadcast
+   ```
+
+2. **Build Frontend for Production**
+   ```bash
+   cd frontend
+   npm run build
+   npm start
+   ```
+
+### Getting Testnet Tokens
+
+For development on Celo Sepolia testnet:
+1. Get test CELO from the [Celo Sepolia Faucet](https://faucet.celo.org/celo-sepolia)
+2. Get test cUSD from the [Celo Faucet](https://faucet.celo.org/)
+
 ## Getting Started
 
 Frontend: Navigate to frontend folder. Run npm install. Run npm run dev. Visit localhost:3000.

@@ -267,9 +267,9 @@ Only seller can cancel. Removes listing from marketplace.
 import { defineChain } from "thirdweb/chains";
 
 const celoSepolia = defineChain({
-  id: 11142220,
+  id: 42220,
   name: "Celo Sepolia",
-  rpc: "https://forno.celo-sepolia.celo-testnet.org/",
+  rpc: "https://forno.celo.org/",
   nativeCurrency: {
     name: "CELO",
     symbol: "CELO",
