@@ -9,8 +9,8 @@ import { CELO_RUNNER_ABI } from '@/config/abis';
 // Define Celo Sepolia chain
 const celoSepolia = defineChain({
   id: 11142220,
-  name: "Celo Sepolia",
-  rpc: "https://forno.celo-sepolia.celo-testnet.org/",
+  name: "Celo Mainnet",
+  rpc: "https://forno.celo.org/",
   nativeCurrency: {
     name: "CELO",
     symbol: "CELO",

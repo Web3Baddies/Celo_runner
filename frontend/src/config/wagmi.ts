@@ -1,12 +1,13 @@
 import { http, createConfig } from 'wagmi';
 import { celoAlfajores } from 'wagmi/chains';
 import { injected, walletConnect } from 'wagmi/connectors';
+import { Celo_Mainnet } from './contracts';
 
 // Custom Celo Sepolia chain config
-export const celoSepolia = {
-  id: 11142220,
-  name: 'Celo Sepolia Testnet',
-  network: 'celo-sepolia',
+export const Celo_Mainnet = {
+  id: 42220,
+  name: 'Celo Mainnet',
+  network: 'celo-mainnet',
   nativeCurrency: {
     decimals: 18,
     name: 'CELO',
@@ -14,16 +15,16 @@ export const celoSepolia = {
   },
   rpcUrls: {
     default: {
-      http: ['https://forno.celo-sepolia.celo-testnet.org/'],
+      http: ['https://forno.celo.org/'],
     },
     public: {
-      http: ['https://forno.celo-sepolia.celo-testnet.org/'],
+      http: ['https://forno.celo.org/'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Celo Explorer',
-      url: 'https://explorer.celo-sepolia.celo-testnet.org',
+      url: 'https://explorer.celo.org',
     },
   },
   testnet: true,
@@ -33,7 +34,7 @@ export const celoSepolia = {
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID';
 
 export const config = createConfig({
-  chains: [celoSepolia, celoAlfajores],
+  chains: [celoSepolia, celoAlfajores, Celo_Mainnet],
   connectors: [
     injected(),
     walletConnect({ projectId }),
@@ -41,6 +42,7 @@ export const config = createConfig({
   transports: {
     [celoSepolia.id]: http(),
     [celoAlfajores.id]: http(),
+    [Celo_Mainnet.id]: http(),
   },
 });
 

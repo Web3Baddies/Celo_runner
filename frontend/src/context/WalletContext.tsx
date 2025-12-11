@@ -13,9 +13,9 @@ import { defineChain } from "thirdweb";
 
 // Define Celo Sepolia chain
 export const celoSepolia = defineChain({
-  id: 11142220,
-  name: "Celo Sepolia",
-  rpc: "https://forno.celo-sepolia.celo-testnet.org/",
+  id: 42220,
+  name: "Celo Mainnet",
+  rpc: "https://forno.celo-testnet.org/",
   nativeCurrency: {
     name: "CELO",
     symbol: "CELO",

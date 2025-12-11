@@ -11,9 +11,9 @@ import { getBadgeImage, getBadgeNameByStage } from '@/config/badgeMetadata';
 import { NFTCard } from './NFTCard';
 
 const celoSepolia = defineChain({
-  id: 11142220,
-  name: "Celo Sepolia",
-  rpc: "https://forno.celo-sepolia.celo-testnet.org/",
+  id: 42220,
+  name: "Celo Mainnet",
+  rpc: "https://forno.celo.org/",
   nativeCurrency: {
     name: "CELO",
     symbol: "CELO",

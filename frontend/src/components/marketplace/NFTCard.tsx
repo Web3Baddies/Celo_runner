@@ -26,10 +26,10 @@ import { useGameStore } from '@/store/gameStore';
 import { isMiniPayAvailable, checkCUSDBalance } from '@/utils/minipay';
 import { stableTokenABI } from '@celo/abis';
 
-const celoSepolia = defineChain({
-  id: 11142220,
+const celoMainnet = defineChain({
+  id: 42220,
   name: "Celo Sepolia",
-  rpc: "https://forno.celo-sepolia.celo-testnet.org/",
+  rpc: "https://forno.celo.org/",
   nativeCurrency: {
     name: "CELO",
     symbol: "CELO",
