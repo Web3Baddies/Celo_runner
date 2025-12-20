@@ -17,27 +17,27 @@ MiniPay is a **stablecoin wallet** built into Opera Mini browser and available a
 
 ## Integration Features
 
-### ✅ **Wallet Detection**
+### Wallet Detection
 - Automatically detects MiniPay wallet via `window.ethereum.isMiniPay`
 - Shows appropriate UI based on wallet type
 - Works seamlessly with other wallets too
 
-### ✅ **Visual Indicators**
+### Visual Indicators
 - Green badge showing "MiniPay Detected!" when MiniPay is available
 - Message explaining MiniPay benefits
 - "Add Cash to MiniPay" button for easy funding
 
-### ✅ **cUSD Balance Checking** (Available)
+### cUSD Balance Checking
 - Utility function to check cUSD (Celo Dollar) balance
 - Uses Celo's stable token contract
 - Supports both testnet and mainnet
 
-### ✅ **Transaction Support**
+### Transaction Support
 - MiniPay users can make transactions through thirdweb
 - Low-cost stablecoin transfers
 - Works with existing transaction flow
 
-### ✅ **Add Cash Deeplink**
+### Add Cash Deeplink
 - Quick access to MiniPay's add cash screen
 - One-click button to add funds
 - Opens MiniPay's native add cash interface
