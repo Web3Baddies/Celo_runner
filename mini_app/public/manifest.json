@@ -1,0 +1,10 @@
+{
+  "name": "Celo Runner",
+  "description": "Play-to-earn runner game on Celo. Earn tokens, collect badges, and trade NFTs.",
+  "iconUrl": "https://celo-runner-iv4y.vercel.app/icon.png",
+  "splashImageUrl": "https://celo-runner-iv4y.vercel.app/splash.png",
+  "splashBackgroundColor": "#000000",
+  "url": "https://celo-runner-iv4y.vercel.app",
+  "requiredChains": [42220, 11142220],
+  "requiredCapabilities": ["wallet", "transactions"]
+}
