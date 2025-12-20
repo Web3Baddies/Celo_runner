@@ -1,11 +1,32 @@
-// Contract addresses on Celo Sepolia
-export const CONTRACTS = {
-  QUEST_TOKEN: '0xC3adf32A0C0a70183eab5D1C33B088fFeEecf396' as `0x${string}`,
-  RUNNER_BADGE: '0x6D939Da699D3AbA5A47662242Ec5e1a091Db617D' as `0x${string}`,
-  CELO_RUNNER: '0x03c2c7011eE8519D3B0AF49f20D4b6dEF80799A7' as `0x${string}`,
-  MARKETPLACE: '0xa3fC9782937F8FFDD9BB59D573b33E9842065013' as `0x${string}`, // Updated with cUSD support
-  CUSD_TOKEN: '0x765DE816845861e75A25fCA122bb6898B8B1282a' as `0x${string}`, // Celo mainnet cUSD
+// Contract addresses by network
+const CONTRACTS_BY_NETWORK = {
+  // Celo Mainnet (Chain ID: 42220)
+  MAINNET: {
+    QUEST_TOKEN: '0x7B61f8EadD960a2e676f26E6968F5f65FebE1341' as `0x${string}`,
+    RUNNER_BADGE: '0xe0Aad78b3615ce64469518f4E406B580de5cABaA' as `0x${string}`,
+    CELO_RUNNER: '0x553efD80A0ADEd286Ed49F78Ba5051846db91B37' as `0x${string}`,
+    MARKETPLACE: '0x387998f2eA7f6f4F81cc583ba2bDB841d2bB77C6' as `0x${string}`, // Platform fee: 2.5%
+    CUSD_TOKEN: '0x765DE816845861e75A25fCA122bb6898B8B1282a' as `0x${string}`, // Celo Mainnet cUSD
+  },
+  // Celo Sepolia Testnet (Chain ID: 11142220)
+  TESTNET: {
+    QUEST_TOKEN: '0x48e2e16a5cfe127fbfc76f3fd85163bbae64a861' as `0x${string}`,
+    RUNNER_BADGE: '0x7b72c0e84012f868fe9a4164a8122593d0f38b84' as `0x${string}`,
+    CELO_RUNNER: '0x4588b0ff4016952e4391dea6dcc7f9a1484ac7b6' as `0x${string}`,
+    MARKETPLACE: '0x2d133d0E526193C17AA0Cb0ceD0D9081fbc6Ad73' as `0x${string}`, // Updated with platform fees (2.5%)
+    CUSD_TOKEN: '0xdE9e4C3ce781b4bA68120d6261cbad65ce0aB00b' as `0x${string}`, // Celo Sepolia cUSD
+  },
 } as const;
+
+// Helper function to get contract addresses for a specific network
+export function getContractAddresses(chainId?: number) {
+  // Default to mainnet (42220)
+  const isMainnet = chainId === undefined || chainId === 42220;
+  return isMainnet ? CONTRACTS_BY_NETWORK.MAINNET : CONTRACTS_BY_NETWORK.TESTNET;
+}
+
+// Legacy export for backward compatibility - defaults to mainnet
+export const CONTRACTS = CONTRACTS_BY_NETWORK.MAINNET;
 
 // Helper function to get contract addresses
 export function getContractAddresses() {
