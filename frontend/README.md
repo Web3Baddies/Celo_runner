@@ -8,10 +8,11 @@ Next.js frontend for Celo Runner game. Built with thirdweb, React, and Tailwind 
 - Player registration and profile management
 - Stage-based gameplay with quiz integration
 - Token and NFT rewards claiming
-- NFT marketplace (CELO and cUSD payments)
+- NFT marketplace (CELO and cUSD payments) with 2.5% platform fees
 - Leaderboard system
 - Mobile-responsive design
 - MiniPay integration with cUSD support
+- Network support for Mainnet and Testnet
 
 ## Prerequisites
 
@@ -30,16 +31,16 @@ Create a `.env.local` file (or copy from `.env.local.example`):
 
 ```env
 # Contract Addresses (Celo Mainnet)
-NEXT_PUBLIC_QUEST_TOKEN_ADDRESS=0xC3adf32A0C0a70183eab5D1C33B088fFeEecf396
-NEXT_PUBLIC_RUNNER_BADGE_ADDRESS=0x6D939Da699D3AbA5A47662242Ec5e1a091Db617D
-NEXT_PUBLIC_CELO_RUNNER_ADDRESS=0x03c2c7011eE8519D3B0AF49f20D4b6dEF80799A7
-NEXT_PUBLIC_CELO_NFT_MARKETPLACE=0xa3fC9782937F8FFDD9BB59D573b33E9842065013
-NEXT_PUBLIC_CUSD_TOKEN_ADDRESS=
+NEXT_PUBLIC_QUEST_TOKEN_ADDRESS=0x7B61f8EadD960a2e676f26E6968F5f65FebE1341
+NEXT_PUBLIC_RUNNER_BADGE_ADDRESS=0xe0Aad78b3615ce64469518f4E406B580de5cABaA
+NEXT_PUBLIC_CELO_RUNNER_ADDRESS=0x553efD80A0ADEd286Ed49F78Ba5051846db91B37
+NEXT_PUBLIC_MARKETPLACE_ADDRESS=0x387998f2eA7f6f4F81cc583ba2bDB841d2bB77C6
+NEXT_PUBLIC_CUSD_TOKEN_ADDRESS=0x765DE816845861e75A25fCA122bb6898B8B1282a
 NEXT_PUBLIC_CHAIN_ID=42220
 NEXT_PUBLIC_RPC_URL=https://forno.celo.org
 ```
 
-**Note:** The contract addresses are also hardcoded in `src/config/contracts.ts` as a fallback, so the app will work even without `.env.local`.
+**Note:** The contract addresses are configured in `src/config/contracts.ts` with network-aware support. The app defaults to Mainnet (Chain ID: 42220) but supports both Mainnet and Testnet. Use `getContractAddresses(chainId)` to get addresses for a specific network.
 
 ## Development
 
