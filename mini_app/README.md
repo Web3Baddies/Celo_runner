@@ -1,11 +1,11 @@
-# Celo Runner Frontend
+# Celo Runner MiniApp
 
-Next.js frontend for Celo Runner game. Built with thirdweb, React, and Tailwind CSS.
+Next.js frontend for Celo Runner game as a Farcaster MiniApp. Built with Farcaster SDK, Wagmi, React, and Tailwind CSS.
 
 ## Features
 
-- Wallet connection (MetaMask, WalletConnect, MiniPay, Farcaster)
-- **Farcaster MiniApp support** - Play directly in Farcaster clients
+- Farcaster MiniApp support - Play directly in Farcaster clients
+- Wallet connection (Farcaster Wallet, MetaMask, WalletConnect, MiniPay)
 - Network selection (Mainnet/Testnet) with Mainnet as default
 - Player registration and profile management
 - Stage-based gameplay with quiz integration
@@ -21,7 +21,7 @@ Next.js frontend for Celo Runner game. Built with thirdweb, React, and Tailwind 
 ## Prerequisites
 
 - Node.js 18+ and npm
-- A Celo wallet (MetaMask, WalletConnect, or MiniPay)
+- A Celo wallet (Farcaster Wallet, MetaMask, WalletConnect, or MiniPay)
 
 ## Installation
 
@@ -34,19 +34,19 @@ npm install
 Create a `.env.local` file (or copy from `.env.local.example`):
 
 ```env
-# Contract Addresses (Celo Sepolia Testnet)
-NEXT_PUBLIC_QUEST_TOKEN_ADDRESS=0x48e2e16a5cfe127fbfc76f3fd85163bbae64a861
-NEXT_PUBLIC_RUNNER_BADGE_ADDRESS=0x7b72c0e84012f868fe9a4164a8122593d0f38b84
-NEXT_PUBLIC_CELO_RUNNER_ADDRESS=0x4588b0ff4016952e4391dea6dcc7f9a1484ac7b6
-NEXT_PUBLIC_MARKETPLACE_ADDRESS=0x2d133d0E526193C17AA0Cb0ceD0D9081fbc6Ad73
-NEXT_PUBLIC_CUSD_TOKEN_ADDRESS=0xdE9e4C3ce781b4bA68120d6261cbad65ce0aB00b
+# Contract Addresses (Celo Mainnet)
+NEXT_PUBLIC_QUEST_TOKEN_ADDRESS=0x7B61f8EadD960a2e676f26E6968F5f65FebE1341
+NEXT_PUBLIC_RUNNER_BADGE_ADDRESS=0xe0Aad78b3615ce64469518f4E406B580de5cABaA
+NEXT_PUBLIC_CELO_RUNNER_ADDRESS=0x553efD80A0ADEd286Ed49F78Ba5051846db91B37
+NEXT_PUBLIC_MARKETPLACE_ADDRESS=0x387998f2eA7f6f4F81cc583ba2bDB841d2bB77C6
+NEXT_PUBLIC_CUSD_TOKEN_ADDRESS=0x765DE816845861e75A25fCA122bb6898B8B1282a
 
 # Network Configuration
-NEXT_PUBLIC_CHAIN_ID=11142220
-NEXT_PUBLIC_RPC_URL=https://forno.celo-sepolia.celo-testnet.org/
+NEXT_PUBLIC_CHAIN_ID=42220
+NEXT_PUBLIC_RPC_URL=https://forno.celo.org
 ```
 
-**Note:** The contract addresses are also configured in `src/config/contracts.ts` with network-aware support. The app defaults to **Mainnet** (as required for Farcaster) but supports both Mainnet and Testnet. Use `getContractAddresses(chainId)` to get addresses for a specific network.
+**Note:** The contract addresses are configured in `src/config/contracts.ts` with network-aware support. The app defaults to Mainnet (as required for Farcaster) but supports both Mainnet and Testnet. Use `getContractAddresses(chainId)` to get addresses for a specific network.
 
 ## Development
 
@@ -75,7 +75,7 @@ npm start
 ## Project Structure
 
 ```
-frontend/
+mini_app/
 ├── src/
 │   ├── app/              # Next.js app router pages
 │   │   ├── page.tsx      # Home page
@@ -85,18 +85,22 @@ frontend/
 │   │   └── leaderboard/  # Leaderboard page
 │   ├── components/       # React components
 │   │   ├── GameUI.tsx    # Main game interface
-│   │   ├── NewWalletConnection.tsx  # Wallet connection
+│   │   ├── FarcasterSDK.tsx  # Farcaster SDK initialization
+│   │   ├── FarcasterWallet.tsx  # Farcaster wallet UI
 │   │   └── marketplace/  # Marketplace components
 │   ├── hooks/            # Custom React hooks
-│   │   └── useCeloRunner.ts  # Contract interaction hook
+│   │   ├── useCeloRunner.ts  # Contract interaction hook
+│   │   └── useFarcaster*.ts  # Farcaster hooks
 │   ├── store/            # Zustand state management
 │   │   └── gameStore.ts  # Global game state
 │   ├── config/           # Configuration files
 │   │   ├── contracts.ts  # Contract addresses
 │   │   └── abis/         # Contract ABIs
 │   └── utils/            # Utility functions
+│       ├── farcaster.ts  # Farcaster utilities
 │       └── minipay.ts    # MiniPay integration
 └── public/               # Static assets
+    └── manifest.json     # Farcaster MiniApp manifest
 ```
 
 ## Key Features
@@ -104,7 +108,7 @@ frontend/
 ### Wallet Connection
 
 Supports multiple wallet providers:
-- **Farcaster Wallet** (MiniApp mode - automatic connection)
+- Farcaster Wallet (MiniApp mode - automatic connection)
 - MetaMask
 - WalletConnect
 - MiniPay (with automatic detection)
@@ -150,7 +154,7 @@ See `FARCASTER_INTEGRATION.md` for detailed Farcaster documentation.
 
 ## Technologies
 
-- **Next.js 16**: React framework
+- **Next.js 15**: React framework
 - **Wagmi**: Ethereum React hooks with Farcaster connector
 - **Farcaster MiniApp SDK**: MiniApp integration
 - **thirdweb**: Web3 SDK for contract interactions (fallback)
@@ -166,14 +170,16 @@ See `FARCASTER_INTEGRATION.md` for detailed Farcaster documentation.
 - Clear `.next` folder and rebuild
 
 **Wallet connection issues:**
-- Ensure wallet is connected to Celo Sepolia network
+- Ensure wallet is connected to Celo network
 - Check RPC URL in configuration
 - Verify contract addresses are correct
+- For Farcaster MiniApp, ensure SDK is initialized
 
 **Transaction failures:**
 - Check wallet has enough CELO for gas
 - Verify contract addresses match deployed contracts
 - Check network connection
+- Ensure correct network is selected (Mainnet/Testnet)
 
 ## Deployment
 
@@ -209,5 +215,6 @@ vercel
 
 For issues or questions:
 - Check smartcontract README for contract details
-- Review thirdweb documentation: https://portal.thirdweb.com
+- Review Farcaster MiniApp documentation: https://miniapps.farcaster.xyz
+- Review Wagmi documentation: https://wagmi.sh
 - Celo documentation: https://docs.celo.org
