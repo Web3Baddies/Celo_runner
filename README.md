@@ -56,7 +56,7 @@ Your badge NFTs belong to you. Trade them. Sell them. Keep them. Your QUEST toke
 
 Celo offers low fees. Your rewards stay in your pocket. Fast transactions mean quick payouts. Mobile design works on your phone. Built for real use.
 
-## 🚀 Setup and Installation
+## Setup and Installation
 
 ### Prerequisites
 
