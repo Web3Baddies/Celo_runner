@@ -25,19 +25,15 @@ export function getContractAddresses(chainId?: number) {
   return isMainnet ? CONTRACTS_BY_NETWORK.MAINNET : CONTRACTS_BY_NETWORK.TESTNET;
 }
 
-// Legacy export for backward compatibility - defaults to mainnet
+// Legacy export for backward compatibility - defaults to mainnet (as per Farcaster requirement)
+// Individual files should use getContractAddresses(chainId) for network-aware access
 export const CONTRACTS = CONTRACTS_BY_NETWORK.MAINNET;
 
-// Helper function to get contract addresses
-export function getContractAddresses() {
-  return CONTRACTS;
-}
-
 // Network configuration
-export const Celo_Mainnet = {
-  id: 42220,
-  name: 'Celo Mainnet',
-  network: 'celo-mainnet',
+export const CELO_SEPOLIA = {
+  id: 11142220,
+  name: 'Celo Sepolia Testnet',
+  network: 'celo-sepolia',
   nativeCurrency: {
     decimals: 18,
     name: 'CELO',
@@ -45,19 +41,19 @@ export const Celo_Mainnet = {
   },
   rpcUrls: {
     default: {
-      http: ['https://forno.celo.org/'],
+      http: ['https://forno.celo-sepolia.celo-testnet.org/'],
     },
     public: {
-      http: ['https://forno.celo.org/'],
+      http: ['https://forno.celo-sepolia.celo-testnet.org/'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Celo Explorer',
-      url: 'https://explorer.celo.org',
+      url: 'https://explorer.celo-sepolia.celo-testnet.org',
     },
   },
-  testnet: false,
+  testnet: true,
 } as const;
 
 // Game constants
