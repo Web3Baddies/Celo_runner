@@ -1,23 +1,30 @@
+/**
+ * Wagmi configuration with support for Celo Mainnet (default) and Celo Sepolia Testnet
+ */
+
 import { http, createConfig } from 'wagmi';
-import { celoAlfajores, celoSepolia, celo} from 'wagmi/chains';
+import { celo, celoSepolia } from 'wagmi/chains';
 import { injected, walletConnect } from 'wagmi/connectors';
-import { Celo_Mainnet } from './contracts';
 
 // WalletConnect project ID
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID';
 
 export const config = createConfig({
-  chains: [celoSepolia, celoAlfajores, Celo_Mainnet],
+  chains: [celo, celoSepolia],
   connectors: [
     injected(),
     walletConnect({ projectId }),
   ],
   transports: {
+    [celo.id]: http(),
     [celoSepolia.id]: http(),
-    [celoAlfajores.id]: http(),
-    [Celo_Mainnet.id]: http(),
   },
+  // Default to mainnet
+  ssr: false,
 });
+
+// Export default chain (mainnet)
+export const defaultChain = celo;
 
 declare module 'wagmi' {
   interface Register {

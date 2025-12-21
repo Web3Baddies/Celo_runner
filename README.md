@@ -56,7 +56,7 @@ Your badge NFTs belong to you. Trade them. Sell them. Keep them. Your QUEST toke
 
 Celo offers low fees. Your rewards stay in your pocket. Fast transactions mean quick payouts. Mobile design works on your phone. Built for real use.
 
-## 🚀 Setup and Installation
+## Setup and Installation
 
 ### Prerequisites
 
@@ -173,15 +173,19 @@ View contracts on Blockscout: https://explorer.celo-sepolia.celo-testnet.org/
 - **[smartcontract/README.md](./smartcontract/README.md)**: Smart contract setup, deployment, and verification
 - **[frontend/README.md](./frontend/README.md)**: Frontend setup, features, and integration guide
 - **[frontend/MINIPAY_INTEGRATION.md](./frontend/MINIPAY_INTEGRATION.md)**: MiniPay integration details and features
+- **[mini_app/README.md](./mini_app/README.md)**: Farcaster MiniApp implementation with Farcaster SDK integration
+- **[mini_app/FARCASTER_INTEGRATION.md](./mini_app/FARCASTER_INTEGRATION.md)**: Farcaster MiniApp integration guide
+- **[mini_app/MINIPAY_INTEGRATION.md](./mini_app/MINIPAY_INTEGRATION.md)**: MiniPay integration for MiniApp
 
 ## Built for Hackathon
 
 Celo Runner built for **Celo MiniPay Hackathon 2024** (Nov 14-30). Play to earn mechanics. Mobile first design. Smart contract rewards. NFT marketplace. MiniPay integration. Ready for users.
 
 **Hackathon Alignment:**
-- ✅ **Category**: Play-to-Earn Games
-- ✅ **MiniPay Integration**: Full cUSD support for marketplace
-- ✅ **All Contracts Verified**: Source code on Blockscout
-- ✅ **Mobile-First**: Responsive design for all devices
-- ✅ **Documentation**: Complete setup guides in each folder
+- Category: Play-to-Earn Games
+- MiniPay Integration: Full cUSD support for marketplace
+- Farcaster MiniApp: Complete Farcaster MiniApp integration
+- All Contracts Verified: Source code on Blockscout
+- Mobile-First: Responsive design for all devices
+- Documentation: Complete setup guides in each folder
 

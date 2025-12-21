@@ -1,0 +1,25 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEwNzc3NDAsInR5cGUiOiJhdXRoIiwia2V5IjoiMHhlZkQ2QjQxRTY4MEQ5ZUMyZmU2NDlGODVhMTU0MEZGM0JCMDQyRDFFIn0",
+    "payload": "eyJkb21haW4iOiJjZWxvLXJ1bm5lci1pdjR5LnZlcmNlbC5hcHAifQ",
+    "signature": "0b6H27hWl7hQj5iVTcHDk6MH5bWt99lW4GepJrtyz0t2FG/QjkmhRrJuBp1BWsRGBegvpogx4rn8p1gWRMyfqBs="
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Celo Runner",
+    "iconUrl": "https://celo-runner-iv4y.vercel.app/icon.png",
+    "splashImageUrl": "https://celo-runner-iv4y.vercel.app/splash.png",
+    "splashBackgroundColor": "#2d334a",
+    "homeUrl": "https://celo-runner-iv4y.vercel.app",
+    "requiredChains": [
+      "eip155:42220"
+    ],
+    "requiredCapabilities": [
+      "wallet.getEthereumProvider",
+      "actions.signIn"
+    ],
+    "tagline": "Run, learn, and earn on Celo",
+    "description": "Play-to-earn runner on Celo with CELO and cUSD, badges, and marketplace."
+  }
+}
+
